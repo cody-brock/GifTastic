@@ -1,24 +1,42 @@
-var gifsArr = ["happy","surprised", "shocked", "interested"];
+var gifsArr = ["happy", "surprised", "shocked", "interested"];
+
+var localGifStorage = {};
+
+function populateImages(array) {
+    console.log(array)
+    array.forEach(element => {
+        $("#gif-field").append($(`<img src="${element.static}">`))
+    });
+}
 
 function displayGifs() {
     let gifQuery = $(this).text()
     let queryURL = "https://api.giphy.com/v1/gifs/search?api_key=CJRlt8fWwfRQ8V9FigI6bffN4mN5zMgt&q=" + gifQuery + "&limit=10&offset=0&rating=G&lang=en";
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    }).then(function(response) {
-        console.log(response);
-        var newGifDiv = $("<div>");
-        response.data.forEach(element => {
-            newGifDiv.append($(`<img src="${element.images["480w_still"].url}">`));
-        });
 
-
-        $("#gif-field").append(newGifDiv);
-    })
+    if (localGifStorage[gifQuery]) {
+        populateImages(localGifStorage[gifQuery]);
+    } else {
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+            //Get info into locally stored object
+            let elementArr = [];
+            response.data.forEach(element => {
+                let tempObj = {};
+                tempObj["static"] = element.images.fixed_height_still.url;
+                tempObj["animated"] = element.images.fixed_height.url;
+                elementArr.push(tempObj);
+            });
+            localGifStorage[gifQuery] = elementArr;
+            populateImages(localGifStorage[gifQuery]);
+        })
+    }
+    // console.log(localGifStorage)
+    // console.log(gifQuery)
 }
 
-function renderButtons () {
+function renderButtons() {
     $("#buttons").empty();
     gifsArr.forEach(element => {
         // console.log(element)
@@ -34,7 +52,7 @@ function renderButtons () {
     });
 }
 
-$("#add-gif").on("click", function(event) {
+$("#add-gif").on("click", function (event) {
     event.preventDefault();
     var gif = $("#gif-input").val().trim();
     gifsArr.push(gif);
