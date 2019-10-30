@@ -2,10 +2,21 @@ var gifsArr = ["happy", "surprised", "shocked", "interested"];
 
 var localGifStorage = {};
 
-function populateImages(array, dataName) {
-    console.log(array)
+function populateImages(array, dataName, responseData) {
+    console.log("array:", array);
+    console.log("dataName:", dataName);
+    console.log(responseData);
+   
     for (let i = 0; i < array.length; i++) {
-        $("#gif-field").append($(`<img class="startStop static" src="${array[i].static}" data-name="${dataName}" id=${i}>`));
+        let imgRating = responseData[i]['rating']
+        console.log(imgRating);
+        $("#gif-field").append($(`<div class="card">
+                                    <img class="startStop static" src="${array[i].static}" data-name="${dataName}" id=${i}>
+                                    <div class="card-body">
+                                    ${imgRating}
+                                    </div>
+                                </div>`));
+    
     }
     
 
@@ -17,35 +28,21 @@ function populateImages(array, dataName) {
 }
 
 function animateImageOnClick() {
-    console.log("regular",this);
-    console.log("jquery",$(this));
-    console.log(localGifStorage);
-    console.log($(this).attr('data-name'));
-    console.log($(this).attr('id'));
-
     let dataName = $(this).attr('data-name');
-    console.log("dataName", dataName);
     let dataId = $(this).attr('id');
-    console.log("dataId", dataId);
+    var toMoveOrNotToMove
 
-
-
-    var currentSource = $(this).attr('src');
-    console.log("currentSource", currentSource);
-
-    var staticVsAnimated
     if ($(this).attr('class').includes('static')) {
         let newClass = 'animated'
-        staticVsAnimated = localGifStorage[dataName][dataId][newClass];
+        toMoveOrNotToMove = localGifStorage[dataName][dataId][newClass];
         $(this).toggleClass('static');
     } else {
         let newClass = 'static'
-        staticVsAnimated = localGifStorage[dataName][dataId][newClass];
+        toMoveOrNotToMove = localGifStorage[dataName][dataId][newClass];
         $(this).toggleClass('static');
     }
 
-    console.log('staticVsAnimated', staticVsAnimated);
-    $(this).attr('src', staticVsAnimated);
+    $(this).attr('src', toMoveOrNotToMove);
     
 }
 
@@ -57,6 +54,8 @@ function displayGifs() {
 
     if (localGifStorage[gifQuery]) {
         populateImages(localGifStorage[gifQuery]);
+        // May need more parameters... let's see
+        // populateImages(localGifStorage[gifQuery], gifQuery, response.data);
     } else {
         $.ajax({
             url: queryURL,
@@ -71,7 +70,7 @@ function displayGifs() {
                 elementArr.push(tempObj);
             });
             localGifStorage[gifQuery] = elementArr;
-            populateImages(localGifStorage[gifQuery], gifQuery);
+            populateImages(localGifStorage[gifQuery], gifQuery, response.data);
         })
     }
     // console.log(localGifStorage)
