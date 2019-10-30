@@ -3,27 +3,21 @@ var gifsArr = ["happy", "surprised", "shocked", "interested"];
 var localGifStorage = {};
 
 function populateImages(array, dataName, responseData) {
-    console.log("array:", array);
-    console.log("dataName:", dataName);
-    console.log(responseData);
-   
     for (let i = 0; i < array.length; i++) {
+        console.log(responseData);
         let imgRating = responseData[i]['rating']
+        let imgWidth = responseData[i]['images']['fixed_height_still']['width'];
+        console.log(imgWidth)
         console.log(imgRating);
-        $("#gif-field").append($(`<div class="card">
-                                    <img class="startStop static" src="${array[i].static}" data-name="${dataName}" id=${i}>
-                                    <div class="card-body">
-                                    ${imgRating}
+
+        $("#gif-field").append($(`<div class="card jum">
+                                    <img class="startStop static" src="${array[i].static}" data-name="${dataName}" id=${i} width="${imgWidth}">
+                                    <div class="alert-success" width="${imgWidth}">
+                                        ${imgRating}
                                     </div>
                                 </div>`));
     
     }
-    
-
-            //OLD WORKIGN VERSION
-    // array.forEach(element => {
-    //     $("#gif-field").append($(`<img class="startStop" src="${element.static}">`));
-    // });
 
 }
 
