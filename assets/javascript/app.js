@@ -10,10 +10,10 @@ function populateImages(array, dataName, responseData) {
         console.log(imgWidth)
         console.log(imgRating);
 
-        $("#gif-field").append($(`<div class="card jum">
+        $("#gif-field").append($(`<div class="card">
                                     <img class="startStop static" src="${array[i].static}" data-name="${dataName}" id=${i} width="${imgWidth}">
-                                    <div class="alert-success" width="${imgWidth}">
-                                        ${imgRating}
+                                    <div class="card-body">
+                                        <div>${imgRating}</div>
                                     </div>
                                 </div>`));
     
@@ -42,9 +42,14 @@ function animateImageOnClick() {
 
 
 function displayGifs() {
+
+    //clears the previously shown gifs
+    $("#gif-field").empty();
+   
     let gifQuery = $(this).text()
     let queryURL = "https://api.giphy.com/v1/gifs/search?api_key=CJRlt8fWwfRQ8V9FigI6bffN4mN5zMgt&q=" + gifQuery + "&limit=10&offset=0&rating=G&lang=en";
     // let giphyName = $(this).text("data-name")
+   
 
     if (localGifStorage[gifQuery]) {
         populateImages(localGifStorage[gifQuery]);
