@@ -1,0 +1,16 @@
+body {
+    background-color: #7e9a9a;
+}
+
+.card {
+    margin-bottom: 30px;
+    display: flex;
+    flex-flow: row wrap;
+    background-color: #f8f0e5;
+}
+
+.gif {
+    margin: 5px;
+    background-color: #db9833;
+}
+

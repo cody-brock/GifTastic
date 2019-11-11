@@ -13,23 +13,28 @@
         <link rel="stylesheet" href="assets/css/style.css">
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        
-        <h1>This is here</h1>
 
-        <div id="buttons"></div>
+        <div class="container">
 
-        <form id="gif-form">
-            <label for="gif-input">Add a gif, Yo!</label>
-            <input type="text" id="gif-input"><br>
-        
-            <!-- Button triggers new gif to be added -->
-            <input id="add-gif" type="submit" value="Add a gif, Yo!">
-        </form>
+            <div id="buttons"></div>
 
-        <div id="gif-field"></div>
+            <form id="gif-form">
+                <label for="gif-input">Add a Reaction</label>
+                <input type="text" id="gif-input"><br>
+            
+                <!-- Button triggers new gif to be added -->
+                <input id="add-gif" type="submit" value="Submit" style="margin-bottom: 20px;">
+            </form>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="gif-field"></div>
+                </div>
+            </div>
+
+            
+
+        </div>
 
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

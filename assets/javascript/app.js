@@ -10,12 +10,12 @@ function populateImages(array, dataName, responseData) {
         console.log(imgWidth)
         console.log(imgRating);
 
-        $("#gif-field").append($(`<div class="card">
-                                    <img class="startStop static" src="${array[i].static}" data-name="${dataName}" id=${i} width="${imgWidth}">
+        $("#gif-field").append($(`<span class="card w-25" style="text-align: center; display: block;">
+                                    <img class="startStop static img-thumbnail" src="${array[i].static}" data-name="${dataName}" id=${i} width="${imgWidth}" style="text-align: center; margin-top: 10px">
                                     <div class="card-body">
-                                        <div>${imgRating}</div>
+                                        <div>Rating: ${imgRating.toUpperCase()}</div>
                                     </div>
-                                </div>`));
+                                </span>`));
     
     }
 
@@ -48,33 +48,24 @@ function displayGifs() {
    
     let gifQuery = $(this).text()
     let queryURL = "https://api.giphy.com/v1/gifs/search?api_key=CJRlt8fWwfRQ8V9FigI6bffN4mN5zMgt&q=" + gifQuery + "&limit=10&offset=0&rating=G&lang=en";
-    // let giphyName = $(this).text("data-name")
-   
-
-    if (localGifStorage[gifQuery]) {
-        populateImages(localGifStorage[gifQuery]);
-        // May need more parameters... let's see
-        // populateImages(localGifStorage[gifQuery], gifQuery, response.data);
-    } else {
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function (response) {
-            //Get info into locally stored object
-            let elementArr = [];
-            response.data.forEach(element => {
-                let tempObj = {};
-                tempObj["static"] = element.images.fixed_height_still.url;
-                tempObj["animated"] = element.images.fixed_height.url;
-                elementArr.push(tempObj);
-            });
-            localGifStorage[gifQuery] = elementArr;
-            populateImages(localGifStorage[gifQuery], gifQuery, response.data);
-        })
-    }
-    // console.log(localGifStorage)
-    // console.log(gifQuery)
+    
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        //Get info into locally stored object
+        let elementArr = [];
+        response.data.forEach(element => {
+            let tempObj = {};
+            tempObj["static"] = element.images.fixed_height_still.url;
+            tempObj["animated"] = element.images.fixed_height.url;
+            elementArr.push(tempObj);
+        });
+        localGifStorage[gifQuery] = elementArr;
+        populateImages(localGifStorage[gifQuery], gifQuery, response.data);
+    })
 }
+
 
 function renderButtons() {
     $("#buttons").empty();
