@@ -10,7 +10,7 @@ function populateImages(array, dataName, responseData) {
         console.log(imgWidth)
         console.log(imgRating);
 
-        $("#gif-field").append($(`<span class="card w-25" style="text-align: center; display: block;">
+        $("#gif-field").append($(`<span class="card w-25 h-100 d-inline-block" style="text-align: center; display: block;">
                                     <img class="startStop static img-thumbnail" src="${array[i].static}" data-name="${dataName}" id=${i} width="${imgWidth}" style="text-align: center; margin-top: 10px">
                                     <div class="card-body">
                                         <div>Rating: ${imgRating.toUpperCase()}</div>

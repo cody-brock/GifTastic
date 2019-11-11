@@ -4,6 +4,7 @@ body {
 
 .card {
     margin-bottom: 30px;
+    margin-right: 10px;
     display: flex;
     flex-flow: row wrap;
     background-color: #f8f0e5;
